@@ -39,7 +39,7 @@ A **Flask-based web application** that predicts the **10-year risk of heart dise
 | glucose | Blood glucose level in mg/dL |
 
 - **Note**: The `education` column was dropped because it added little predictive power.  
-- **Model**: Random Forest Classifier saved as `model.pkl` using `joblib`.
+- **Model**: Random Forest Classifier saved as `heartDiseaseprdcition.pkl` using `joblib`.
 
 ---
 
