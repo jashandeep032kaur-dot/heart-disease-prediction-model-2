@@ -1,31 +1,47 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Result — Heart Disease</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <style>
-    body { font-family: Arial, sans-serif; max-width: 700px; margin: 28px auto; text-align:center; }
-    .card { border:1px solid #eee; padding:20px; border-radius:8px; }
-    .label { font-size:1.2em; margin-top:10px; }
-    .prob { font-size:2em; margin-top:10px; color:#1976d2; }
-    .btn { margin-top:18px; padding:10px 14px; background:#1976d2; color:#fff; text-decoration:none; border-radius:6px; display:inline-block;}
-    .error { background:#ffe6e6; padding:12px; border-radius:6px; color:#780000; border:1px solid #ffb3b3; display:inline-block; }
-  </style>
+    <meta charset="UTF-8">
+    <title>Heart Disease Prediction Result</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f7f7f7; padding: 20px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #333; }
+        .label { font-size: 1.5em; margin: 20px 0; text-align: center; }
+        .prob { font-size: 1.2em; margin: 10px 0; text-align: center; }
+        .explanation { font-size: 1em; margin-top: 20px; line-height: 1.5; }
+        .home-btn { display: block; width: 120px; margin: 20px auto; padding: 10px; text-align: center; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px; }
+        .home-btn:hover { background-color: #45a049; }
+        .error { color: red; text-align: center; }
+    </style>
 </head>
 <body>
-  <h1>Prediction Result</h1>
-  <div class="card">
+<div class="container">
+    <h1>Heart Disease Prediction Result</h1>
+
     {% if error %}
-      <div class="error">{{ error }}</div>
+        <div class="error">{{ error }}</div>
     {% else %}
-      <div class="label"><strong>Prediction:</strong> {{ label }}</div>
-      <div class="prob"><strong>Probability:</strong> {{ probability }}</div>
+        <div class="label">Prediction: {{ label }}</div>
+        <div class="prob">Probability of heart disease: {{ probability }}</div>
+
+        <div class="explanation">
+            {% set prob_value = probability.replace('%','')|float %}
+            {% if prob_value < 10 %}
+                <p>Interpretation: Very low risk. The patient has minimal likelihood of developing heart disease in the next 10 years.</p>
+            {% elif prob_value >= 10 and prob_value < 25 %}
+                <p>Interpretation: Low risk. The patient is unlikely to develop heart disease but should maintain healthy lifestyle habits.</p>
+            {% elif prob_value >= 25 and prob_value < 50 %}
+                <p>Interpretation: Moderate risk. Lifestyle changes and regular monitoring are recommended to reduce heart disease risk.</p>
+            {% elif prob_value >= 50 and prob_value < 75 %}
+                <p>Interpretation: High risk. The patient has a significant chance of developing heart disease and should consult a doctor for preventive measures.</p>
+            {% else %}
+                <p>Interpretation: Very high risk. Immediate medical attention and lifestyle interventions are strongly advised.</p>
+            {% endif %}
+        </div>
+
+        <a class="home-btn" href="/">Back to Home</a>
     {% endif %}
-    <div style="margin-top:14px;">
-      <a class="btn" href="{{ url_for('predict_form') }}">Try Again</a>
-      <a class="btn" href="{{ url_for('index') }}" style="background:#555; margin-left:8px;">Home</a>
-    </div>
-  </div>
+</div>
 </body>
 </html>
