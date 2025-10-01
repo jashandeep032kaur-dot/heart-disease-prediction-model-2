@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Result — Heart Disease</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 700px; margin: 28px auto; text-align:center; }
+    .card { border:1px solid #eee; padding:20px; border-radius:8px; }
+    .label { font-size:1.2em; margin-top:10px; }
+    .prob { font-size:2em; margin-top:10px; color:#1976d2; }
+    .btn { margin-top:18px; padding:10px 14px; background:#1976d2; color:#fff; text-decoration:none; border-radius:6px; display:inline-block;}
+    .error { background:#ffe6e6; padding:12px; border-radius:6px; color:#780000; border:1px solid #ffb3b3; display:inline-block; }
+  </style>
+</head>
+<body>
+  <h1>Prediction Result</h1>
+  <div class="card">
+    {% if error %}
+      <div class="error">{{ error }}</div>
+    {% else %}
+      <div class="label"><strong>Prediction:</strong> {{ label }}</div>
+      <div class="prob"><strong>Probability:</strong> {{ probability }}</div>
+    {% endif %}
+    <div style="margin-top:14px;">
+      <a class="btn" href="{{ url_for('predict_form') }}">Try Again</a>
+      <a class="btn" href="{{ url_for('index') }}" style="background:#555; margin-left:8px;">Home</a>
+    </div>
+  </div>
+</body>
+</html>
