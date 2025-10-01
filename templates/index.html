@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Heart Disease Predictor — Home</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 900px; margin: 32px auto; line-height: 1.5; }
+    header { text-align:center; margin-bottom: 24px; }
+    .card { border: 1px solid #ddd; padding: 18px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.04); }
+    table { width:100%; border-collapse: collapse; margin-top:12px; }
+    th, td { text-align:left; padding:8px; border-bottom: 1px solid #eee; }
+    .btn { display:inline-block; padding:10px 16px; background:#1976d2; color:#fff; border-radius:6px; text-decoration:none; }
+    .note { margin-top:12px; background:#fffbe6; padding:10px; border-radius:6px; border:1px solid #ffe58f;}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Heart Disease Predictor</h1>
+    <p>Predict 10-year risk of coronary heart disease using patient data.</p>
+  </header>
+
+  <section class="card">
+    <h2>About this project</h2>
+    <p>
+      This app uses a RandomForest model trained on Framingham dataset–like data.
+      It predicts the probability of developing heart disease in 10 years.
+    </p>
+    <p>
+      <a href="{{ url_for('predict_form') }}" class="btn">Go to Prediction Form</a>
+    </p>
+  </section>
+
+  <section style="margin-top:18px;" class="card">
+    <h2>Features</h2>
+    <table>
+      <thead><tr><th>Feature</th><th>Description</th></tr></thead>
+      <tbody>
+        {% for feat in features %}
+          <tr>
+            <td><strong>{{ feat }}</strong></td>
+            <td>{{ column_info.get(feat) }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="note">
+      <strong>Why was 'education' dropped?</strong>
+      <p>{{ education_explain }}</p>
+    </div>
+  </section>
+</body>
+</html>
