@@ -10,7 +10,7 @@
         .label { font-size: 1.5em; margin: 20px 0; text-align: center; }
         .prob { font-size: 1.2em; margin: 10px 0; text-align: center; }
         .explanation { font-size: 1em; margin-top: 20px; line-height: 1.5; }
-        .home-btn { display: block; width: 120px; margin: 20px auto; padding: 10px; text-align: center; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px; }
+        .home-btn { display: block; width: 150px; margin: 20px auto; padding: 10px; text-align: center; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px; }
         .home-btn:hover { background-color: #45a049; }
         .error { color: red; text-align: center; }
     </style>
@@ -22,21 +22,35 @@
     {% if error %}
         <div class="error">{{ error }}</div>
     {% else %}
-        <div class="label">Prediction: {{ label }}</div>
-        <div class="prob">Probability of heart disease: {{ probability }}</div>
+        {% set prob_value = probability.replace('%','')|float %}
+
+        <div class="label">
+            Prediction: {{ label }}
+        </div>
+
+        <div class="prob">
+            Probability of heart disease: {{ probability }}
+        </div>
 
         <div class="explanation">
-            {% set prob_value = probability.replace('%','')|float %}
-            {% if prob_value < 10 %}
-                <p>Interpretation: Very low risk. The patient has minimal likelihood of developing heart disease in the next 10 years.</p>
-            {% elif prob_value >= 10 and prob_value < 25 %}
-                <p>Interpretation: Low risk. The patient is unlikely to develop heart disease but should maintain healthy lifestyle habits.</p>
-            {% elif prob_value >= 25 and prob_value < 50 %}
-                <p>Interpretation: Moderate risk. Lifestyle changes and regular monitoring are recommended to reduce heart disease risk.</p>
-            {% elif prob_value >= 50 and prob_value < 75 %}
-                <p>Interpretation: High risk. The patient has a significant chance of developing heart disease and should consult a doctor for preventive measures.</p>
+            {% if prediction == 0 %}
+                {% if prob_value < 10 %}
+                    <p>Interpretation: Very low risk. The patient has minimal likelihood of developing heart disease in 10 years.</p>
+                {% elif prob_value < 25 %}
+                    <p>Interpretation: Low risk. The patient is unlikely to develop heart disease but should maintain a healthy lifestyle.</p>
+                {% elif prob_value < 50 %}
+                    <p>Interpretation: Moderate risk. Some risk exists; lifestyle changes and regular checkups are recommended.</p>
+                {% else %}
+                    <p>Warning: Predicted Low Risk, but probability is high. Consider consulting a doctor for preventive measures.</p>
+                {% endif %}
             {% else %}
-                <p>Interpretation: Very high risk. Immediate medical attention and lifestyle interventions are strongly advised.</p>
+                {% if prob_value < 50 %}
+                    <p>Warning: Predicted High Risk, but probability is moderate. Monitor health and lifestyle carefully.</p>
+                {% elif prob_value < 75 %}
+                    <p>Interpretation: High risk. The patient has a significant chance of developing heart disease and should consult a doctor.</p>
+                {% else %}
+                    <p>Interpretation: Very high risk. Immediate medical attention and lifestyle interventions are strongly advised.</p>
+                {% endif %}
             {% endif %}
         </div>
 
